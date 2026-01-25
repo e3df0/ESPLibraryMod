@@ -14,6 +14,9 @@ local LocalPlayer = Players.LocalPlayer
 local RunService = game:GetService("RunService")
 local CoreGui = game:GetService("CoreGui")
 
+-- thingy
+local previous = tick()
+
 -- Framework
 local Framework = {}; Framework.__index = Framework; do
     function Framework:Round_V2(V2)
@@ -56,6 +59,7 @@ local Framework = {}; Framework.__index = Framework; do
 end
 
 -- Main
+--[[
 if not isfolder("ESP") then makefolder("ESP") end
 if not isfolder("ESP/assets") then makefolder("ESP/assets") end
 if not isfile("ESP/assets/taxi.oh") then
@@ -75,18 +79,21 @@ if not isfile("ESP/assets/john_herbert.oh") then
 end
 if not isfile("ESP/assets/fortnite.oh") then
     writefile("ESP/assets/fortnite.oh", game:HttpGet("https://raw.githubusercontent.com/tatar0071/IonHub/main/Assets/fortnite.png"))
-end
+end]]
+
 local Images = {
+--[[
     Taxi = readfile("ESP/assets/taxi.oh"),
     Gorilla = readfile("ESP/assets/gorilla.oh"),
     ["Saul Goodman"] = readfile("ESP/assets/saul_goodman.oh"),
     ["Peter Griffin"] = readfile("ESP/assets/peter_griffin.oh"),
     ["John Herbert"] = readfile("ESP/assets/john_herbert.oh"),
-    ["Fortnite"] = readfile("ESP/assets/fortnite.oh")
+    ["Fortnite"] = readfile("ESP/assets/fortnite.oh")]]
 }
 
 local ESP; ESP = {
     Settings = {
+        Refresh = 0,
         Enabled = false,
         Bold_Text = false,
         Objects_Enabled = false,
@@ -737,6 +744,9 @@ end
 
 -- Render Connection
 local Connection = RunService.RenderStepped:Connect(function()
+    local now = tick()
+
+    if now - previous >= ESP.Settings.Refresh then
     -- Object Updating
     for i, Object in pairs(ESP.Objects) do
         Object:Update()
@@ -771,6 +781,7 @@ local Connection = RunService.RenderStepped:Connect(function()
             end
         end
     end
+end
 end)
 
 return ESP, Connection, Framework

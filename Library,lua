@@ -782,6 +782,8 @@ local Connection = RunService.RenderStepped:Connect(function()
         end
     end
 end
+
+previous = tick()
 end)
 
 return ESP, Connection, Framework

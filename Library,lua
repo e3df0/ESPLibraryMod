@@ -747,6 +747,7 @@ local Connection = RunService.RenderStepped:Connect(function()
     local now = tick()
 
     if now - previous >= ESP.Settings.Refresh then
+    previous = tick()
     -- Object Updating
     for i, Object in pairs(ESP.Objects) do
         Object:Update()
@@ -782,8 +783,6 @@ local Connection = RunService.RenderStepped:Connect(function()
         end
     end
 end
-
-previous = tick()
 end)
 
 return ESP, Connection, Framework

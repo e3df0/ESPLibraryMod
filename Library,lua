@@ -247,6 +247,7 @@ do -- Player Metatable
         ESP.Objects[self.Player] = nil
     end
     function Player_Metatable:Update()
+        local Custom, CustomBold = self.Components.Custom, self.Components.CustomBold
         local Box, Box_Outline = self.Components.Box, self.Components.Box_Outline
         local Healthbar, Healthbar_Outline = self.Components.Healthbar, self.Components.Healthbar_Outline
         local Name, NameBold = self.Components.Name, self.Components.NameBold

@@ -602,6 +602,8 @@ do -- Player Metatable
                     Distance.Visible = false
                     DistanceBold.Visible = false
                     Tool.Visible = false
+                    Custom.Visible = false
+                    CustomBold.Visible = false
                     ToolBold.Visible = false
                     Health.Visible = false
                     HealthBold.Visible = false
@@ -621,7 +623,9 @@ do -- Player Metatable
                 Distance.Visible = false
                 DistanceBold.Visible = false
                 Tool.Visible = false
-                ToolBold.Visible = false
+                ToolBold.Visible = false                    
+                Custom.Visible = false
+                CustomBold.Visible = false
                 Health.Visible = false
                 HealthBold.Visible = false
                 if getgenv().chamsEnabled == true then
@@ -640,6 +644,8 @@ do -- Player Metatable
             Distance.Visible = false
             DistanceBold.Visible = false
             Tool.Visible = false
+             Custom.Visible = false
+             CustomBold.Visible = false
             ToolBold.Visible = false
             Health.Visible = false
             HealthBold.Visible = false

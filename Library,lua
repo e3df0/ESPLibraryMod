@@ -104,6 +104,7 @@ local ESP; ESP = {
         Chams = {Enabled = false, Color = Color3.new(1, 1, 1), Mode = "Visible", OutlineColor = Color3.new(0, 0, 0), Transparency = 0.5, OutlineTransparency = 0},
         Image = {Enabled = false, Image = "Taxi", Raw = Images.Taxi},
         China_Hat = {Enabled = false, Color = Color3.new(1, 1, 1), Transparency = 0.5, Height = 0.5, Radius = 1, Offset = 1}
+        Custom = {Enabled = false, Position = "Bottom", Color = Color3.new(1,1,1), Transparency = 0, OutlineColor = Color3.new(0,0,0)},
     },
     Objects = {},
     Overrides = {},
@@ -156,6 +157,13 @@ function ESP:Get_Tool(Player)
         end
     end
     return "None"
+end
+
+function ESP:Get_Custom(Player)
+    if self.Overrides.Get_Custom ~= nil then
+        return self.Overrides.Get_Custom(Player)
+    end
+    return ""
 end
 
 function ESP:Get_Health(Player)
@@ -495,6 +503,41 @@ do -- Player Metatable
                     ToolBold.Position = Tool.Position + Vector2.new(1, 0)
                     ToolBold.Visible = Tool.Visible and ESP.Settings.Bold_Text
 
+                    local Custom_Settings = ESP.Settings.Custom
+                    local Custom_Position = Custom_Settings.Position
+                    if Custom_Position == "Top" then
+                        Custom.Position = Vector2.new(X_Maximal + Box_Size.X / 2, Box_Position.Y) - Vector2.new(0, Custom.TextBounds.Y - Box_Size.Y + Top_Offset)
+                        Top_Offset = Top_Offset + 10
+                    elseif Custom_Position == "Bottom" then
+                        Custom.Position = Vector2.new(Box_Size.X / 2 + Box_Position.X, Bottom_Offset)
+                        Bottom_Offset = Bottom_Offset + 10
+                    elseif Custom_Position == "Left" then
+                        if Healthbar_Position == "Left" then
+                            Custom.Position = Health_Left_Pos_Outline - Vector2.new(Custom.TextBounds.X/2 - 2 + 4, -(100 * Health_Left_Size_Outline.Y / 100) + 2 - Left_Offset)
+                        else
+                            Custom.Position = Health_Left_Pos_Outline - Vector2.new(Custom.TextBounds.X/2 - 2, -(100 * Health_Left_Size_Outline.Y / 100) + 2 - Left_Offset)
+                        end
+                        Left_Offset = Left_Offset + 10
+                    elseif Custom_Position == "Right" then
+                        if Healthbar_Position == "Right" then
+                            Custom.Position = Vector2.new(X_Maximal + Box_Size.X + 4 + 4 + Custom.TextBounds.X / 2, Box_Position.Y + 2) - Vector2.new(Box_Size.X, -(100 * Health_Left_Size_Outline.Y / 100) + 2 - Right_Offset)
+                        else
+                            Custom.Position = Vector2.new(X_Maximal + Box_Size.X + 3 + Custom.TextBounds.X / 2, Box_Position.Y + 2) - Vector2.new(Box_Size.X, -(100 * Health_Left_Size_Outline.Y / 100) + 2 - Right_Offset)
+                        end
+                        Right_Offset = Right_Offset + 10
+                    end
+                    Custom.Text = ESP:Get_Custom(self.Player)
+                    Custom.Color = Is_Highlighted and Highlight_Color or Custom_Settings.Color
+                    Custom.OutlineColor = Custom_Settings.OutlineColor
+                    Custom.Transparency = Framework:Drawing_Transparency(Custom_Settings.Transparency)
+                    Custom.Visible = Custom_Settings.Enabled
+                    CustomBold.Text = ESP:Get_Custom(self.Player)
+                    CustomBold.Color = Is_Highlighted and Highlight_Color or Custom_Settings.Color
+                    CustomBold.OutlineColor = Custom_Settings.OutlineColor
+                    CustomBold.Transparency = Framework:Drawing_Transparency(Custom_Settings.Transparency)
+                    CustomBold.Position = Custom.Position + Vector2.new(1, 0)
+                    CustomBold.Visible = Custom.Visible and ESP.Settings.Bold_Text
+
                     -- Health
                     local Health_Settings = ESP.Settings.Health
                     local Health_Position = Health_Settings.Position
@@ -685,6 +728,8 @@ do -- ESP Functions
         Components.HealthBold = Framework:Draw("Text", {Font = 2, Size = 13, Center = true})
         Components.Chams = getgenv().chamsEnabled == true and Framework:Instance("Highlight", {Parent = CoreGui, DepthMode = Enum.HighlightDepthMode.AlwaysOnTop}) or true
         Components.Image = Framework:Draw("Image", {Data = self.Settings.Image.Raw})
+        Components.Custom = Framework:Draw("Text", {Font = 2, Size = 13, Outline = true, Center = true})
+        Components.CustomBold = Framework:Draw("Text", {Font = 2, Size = 13, Center = true})
         self.Objects[Instance] = Object
         return Object
     end

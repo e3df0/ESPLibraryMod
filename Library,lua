@@ -256,7 +256,7 @@ do -- Player Metatable
         local Health, HealthBold = self.Components.Health, self.Components.HealthBold
         local Chams = getgenv().chamsEnabled == true and self.Components.Chams or true
         local Image = self.Components.Image
-       if Box == nil or ... or Health == nil or HealthBold == nil or Custom == nil or CustomBold == nil or Chams == nil then
+       if Box == nil or Box_Outline == nil or Healthbar == nil or Healthbar_Outline == nil or Name == nil or NameBold == nil or Distance == nil or DistanceBold == nil or Tool == nil or ToolBold == nil or Health == nil or HealthBold == nil or Custom == nil or CustomBold == nil or Chams == nil then
             self:Destroy()
         end
         local Character = ESP:Get_Character(self.Player)
